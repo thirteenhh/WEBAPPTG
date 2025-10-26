@@ -20,3 +20,14 @@ console.log(tg.initDataUnsafe.user); // инфо о пользователе
 if (window.innerHeight < window.innerWidth) {
   alert("Пожалуйста, переверните устройство в портретный режим");
 }
+
+const menuButtons = document.querySelectorAll('.menuBtn');
+
+menuButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Убираем active у всех кнопок
+    menuButtons.forEach(btn => btn.classList.remove('active'));
+    // Добавляем active только на нажатую кнопку
+    button.classList.add('active');
+  });
+});
