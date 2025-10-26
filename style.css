@@ -12,7 +12,7 @@ html, body {
 #gameContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* центрирует большую кнопку по вертикали */
   align-items: center;
   height: 100%;
   width: 100%;
@@ -32,18 +32,19 @@ html, body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* Нижнее меню */
+/* Нижнее меню фиксированное внизу */
 #bottomMenu {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  width: 90%;
 }
 
+/* Кнопки меню растянуты равномерно по ширине */
 .menuBtn {
-  flex: 1;
-  margin: 0 5px;
+  flex: 1;             /* каждая кнопка занимает одинаковую ширину */
+  margin: 5px;         /* небольшие отступы между кнопками */
   padding: 12px 0;
   border-radius: 12px;
   background-color: #333;
