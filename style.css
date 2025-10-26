@@ -1,19 +1,54 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
-  overflow: hidden;  /* запрещает прокрутку */
-  touch-action: none; /* отключает стандартные жесты прокрутки */
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
   font-family: sans-serif;
-  background-color: #111; /* фон игры */
+  background-color: #111; /* фон страницы */
 }
 
 #gameContainer {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Большая квадратная кнопка в центре */
+#openCase {
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Нижнее меню */
+#bottomMenu {
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.menuBtn {
+  flex: 1;
+  margin: 0 5px;
+  padding: 12px 0;
+  border-radius: 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
