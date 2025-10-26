@@ -32,14 +32,16 @@ html, body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* Нижнее меню фиксированное внизу */
 #bottomMenu {
   position: absolute;
-  bottom: 0;
+  bottom: 20px; /* <-- здесь меняем на нужное расстояние */
   left: 0;
   width: 100%;
   display: flex;
+  justify-content: space-between;
+  padding: 0 10px; /* чтобы кнопки не прилипали к краям */
 }
+
 
 /* Кнопки меню растянуты равномерно по ширине */
 .menuBtn {
