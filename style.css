@@ -34,20 +34,20 @@ html, body {
 
 #bottomMenu {
   position: absolute;
-  bottom: 20px; /* <-- здесь меняем на нужное расстояние */
+  bottom: 20px;   /* отступ от низа экрана */
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 0 10px; /* чтобы кнопки не прилипали к краям */
+  gap: 10px;      /* расстояние между кнопками */
+  padding: 0 10px; /* отступы от краёв экрана */
+  box-sizing: border-box; /* учитываем padding в ширине */
 }
 
 
-/* Кнопки меню растянуты равномерно по ширине */
+
 .menuBtn {
-  flex: 1;             /* каждая кнопка занимает одинаковую ширину */
-  margin: 5px;         /* небольшие отступы между кнопками */
-  padding: 20px 0;
+  flex: 1;
+  padding: 17px 0;  /* высота кнопки */
   border-radius: 12px;
   background-color: #333;
   color: white;
@@ -55,3 +55,4 @@ html, body {
   font-size: 16px;
   cursor: pointer;
 }
+
