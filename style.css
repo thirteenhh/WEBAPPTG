@@ -47,12 +47,22 @@ html, body {
 
 .menuBtn {
   flex: 1;
-  padding: 17px 0;  /* высота кнопки */
+  padding: 17px 0;           /* высота кнопки */
+  margin: 0 5px;             /* промежутки между кнопками */
   border-radius: 12px;
-  background-color: #333;
+  background-color: #1E90FF; /* синий цвет */
   color: white;
   border: none;
   font-size: 16px;
   cursor: pointer;
+
+  /* Плавный переход для анимации */
+  transition: background-color 0.5s, transform 0.2s;
+}
+
+/* Эффект при удержании пальца */
+.menuBtn:active {
+  background-color: #1565C0; /* темнее синий */
+  transform: scale(0.97);    /* чуть уменьшаем кнопку для визуального отклика */
 }
 
