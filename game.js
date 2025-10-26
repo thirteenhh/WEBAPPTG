@@ -16,3 +16,7 @@ function getRandomCard() {
 const tg = window.Telegram.WebApp;
 tg.ready();  // говорит Telegram, что игра загрузилась
 console.log(tg.initDataUnsafe.user); // инфо о пользователе
+
+if (window.innerHeight < window.innerWidth) {
+  alert("Пожалуйста, переверните устройство в портретный режим");
+}
