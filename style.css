@@ -47,7 +47,7 @@ html, body {
 .menuBtn {
   flex: 1;             /* каждая кнопка занимает одинаковую ширину */
   margin: 5px;         /* небольшие отступы между кнопками */
-  padding: 12px 0;
+  padding: 20px 0;
   border-radius: 12px;
   background-color: #333;
   color: white;
