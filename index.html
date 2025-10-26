@@ -1,0 +1,10 @@
+<button id="openCase">Открыть кейс</button>
+<div id="cardDisplay"></div>
+
+<script src="game.js"></script>
+<script>
+document.getElementById("openCase").onclick = () => {
+  const card = getRandomCard();
+  document.getElementById("cardDisplay").innerText = `${card.name}`;
+};
+</script>
