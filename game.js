@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { type: "def", chance: 30 }
   ];
 
-  // === Получение случайной редкости ===
   function getRandomRarity() {
     const rand = Math.random() * 100;
     let sum = 0;
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return rarities[0].type;
   }
 
-  // === Получение случайной карточки ===
   function getRandomCard() {
     const rarity = getRandomRarity();
     const totalCards = { kal: 8, def: 10 };
@@ -38,25 +36,69 @@ document.addEventListener("DOMContentLoaded", () => {
     return { rarity, image: `img/${rarity}${randomNum}.png` };
   }
 
-  // === Основная логика отображения карточек ===
+  // === Элементы DOM ===
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
   const menuButtons = document.querySelectorAll(".menuBtn");
   const pages = document.querySelectorAll(".page");
 
+  // Профиль
+  const profileAvatar = document.getElementById("profileAvatar");
+  const profileName = document.getElementById("profileName");
+  const profileCardsContainer = document.getElementById("profileCards");
+
+  // === Локальная база пользователей (имитация users.json) ===
+  const usersDB = {}; // структура: usersDB[userId] = {cards: [...]}
+
+  function saveCardToUser(card) {
+    const userId = tgUser.id;
+    if (!usersDB[userId]) {
+      usersDB[userId] = { 
+        id: userId,
+        first_name: tgUser.first_name || "",
+        last_name: tgUser.last_name || "",
+        avatar: tgUser.photo_url || "img/avatar.png",
+        cards: []
+      };
+    }
+
+    const alreadyHave = usersDB[userId].cards.some(c => c.image === card.image);
+    if (!alreadyHave) {
+      usersDB[userId].cards.push(card);
+    }
+  }
+
+  function renderProfile() {
+    const userId = tgUser.id;
+    const user = usersDB[userId];
+    if (!user) return;
+
+    profileAvatar.src = user.avatar;
+    profileName.textContent = user.first_name + (user.last_name ? " " + user.last_name : "");
+
+    profileCardsContainer.innerHTML = ""; // очищаем старое
+    user.cards.forEach(card => {
+      const img = document.createElement("img");
+      img.src = card.image;
+      img.alt = card.rarity;
+      img.classList.add("profileCard");
+      profileCardsContainer.appendChild(img);
+    });
+  }
+
   // === Функция показа карточки с подсветкой ===
   function showCard() {
     const card = getRandomCard();
-
     const img = new Image();
     img.src = card.image;
+
     img.onload = () => {
       openBtn.style.display = "none";
 
-      // Выбор цвета свечения в зависимости от редкости
+      // Цвет свечения
       const glowColor = card.rarity === "kal"
-        ? "rgba(128,0,128,0.5)" // темно-фиолетовая
-        : "rgba(0,255,0,0.5)";  // зелёная
+        ? "rgba(128,0,128,0.5)"
+        : "rgba(0,255,0,0.5)";
 
       display.innerHTML = `
         <div class="cardWrapper" style="--glow-color: ${glowColor};">
@@ -64,7 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      // Добавляем кнопку "Открыть ещё" после анимации
+      saveCardToUser(card); // сохраняем в "базу"
+      renderProfile();      // обновляем профиль
+
+      // Кнопка "Открыть ещё"
       setTimeout(() => {
         const newBtn = document.createElement("button");
         newBtn.textContent = "Открыть ещё";
@@ -80,10 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // === Событие на центральную кнопку "Открыть" ===
   openBtn.addEventListener("click", showCard);
 
-  // === Переключение вкладок нижнего меню ===
+  // === Переключение вкладок ===
   menuButtons.forEach(button => {
     button.addEventListener("click", () => {
       menuButtons.forEach(btn => btn.classList.remove("active"));
