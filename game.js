@@ -1,9 +1,7 @@
 // === Telegram User ===
-const tgUser = window.Telegram.WebApp.initDataUnsafe?.user || {};
-// tgUser.username — логин
-// tgUser.first_name — имя
-// tgUser.last_name — фамилия
-// tgUser.photo_url — ссылка на аватарку (если есть)
+const tg = window.Telegram?.WebApp;
+tg?.ready();
+const tgUser = tg?.initDataUnsafe?.user || {};
 
 // Подставляем мини-профиль на главной странице
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,58 +10,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (tgUser) {
     avatarImg.src = tgUser.photo_url || "img/avatar.png"; // fallback
-    nameSpan.textContent = tgUser.first_name || "Имя пользователя";
+    nameSpan.textContent = tgUser.first_name 
+      ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "") 
+      : "Имя пользователя";
   } else {
     avatarImg.src = "img/avatar.png";
     nameSpan.textContent = "Имя пользователя";
   }
-});
 
-// 🎴 Настройка редкостей карточек
-const rarities = [
-  { type: "kal", chance: 70 }, // говно
-  { type: "def", chance: 30 }  // обычная
-];
+  // 🎴 Настройка редкостей карточек
+  const rarities = [
+    { type: "kal", chance: 70 },
+    { type: "def", chance: 30 }
+  ];
 
-// 🎲 Случайная редкость
-function getRandomRarity() {
-  const rand = Math.random() * 100;
-  let sum = 0;
-  for (const r of rarities) {
-    sum += r.chance;
-    if (rand <= sum) return r.type;
+  // 🎲 Случайная редкость
+  function getRandomRarity() {
+    const rand = Math.random() * 100;
+    let sum = 0;
+    for (const r of rarities) {
+      sum += r.chance;
+      if (rand <= sum) return r.type;
+    }
+    return rarities[0].type;
   }
-  return rarities[0].type; // fallback
-}
 
-// 🃏 Случайная карточка
-function getRandomCard() {
-  const rarity = getRandomRarity();
-  const totalCards = { kal: 8, def: 10 };
-  const randomNum = Math.floor(Math.random() * totalCards[rarity]) + 1;
-  return { rarity, image: `img/${rarity}${randomNum}.png` };
-}
+  // 🃏 Случайная карточка
+  function getRandomCard() {
+    const rarity = getRandomRarity();
+    const totalCards = { kal: 8, def: 10 };
+    const randomNum = Math.floor(Math.random() * totalCards[rarity]) + 1;
+    return { rarity, image: `img/${rarity}${randomNum}.png` };
+  }
 
-// === ОСНОВНАЯ ЛОГИКА ===
-document.addEventListener("DOMContentLoaded", () => {
+  // === Основная логика ===
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
   const menuButtons = document.querySelectorAll(".menuBtn");
   const pages = document.querySelectorAll(".page");
 
-  // === Функция открытия карточки ===
+  // Открытие карточки
   function showCard() {
     const card = getRandomCard();
 
-    // Предзагрузка картинки
     const img = new Image();
     img.src = card.image;
     img.onload = () => {
       openBtn.style.display = "none";
-
       display.innerHTML = `<img src="${card.image}" alt="${card.rarity}" class="cardAnimation">`;
 
-      // Появление кнопки "Открыть ещё" через 1 секунду
       setTimeout(() => {
         const newBtn = document.createElement("button");
         newBtn.textContent = "Открыть ещё";
@@ -81,16 +76,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openBtn.addEventListener("click", showCard);
 
-  // === Переключение вкладок (страниц) ===
-  menuButtons.forEach((button) => {
+  // Переключение вкладок
+  menuButtons.forEach(button => {
     button.addEventListener("click", () => {
-      // Активная кнопка
-      menuButtons.forEach((btn) => btn.classList.remove("active"));
+      menuButtons.forEach(btn => btn.classList.remove("active"));
       button.classList.add("active");
 
       const pageId = button.dataset.page;
-
-      pages.forEach((p) => {
+      pages.forEach(p => {
         if (p.id === pageId) {
           p.classList.add("active");
         } else {
