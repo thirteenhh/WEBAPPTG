@@ -223,3 +223,39 @@ html, body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+#profileInfo {
+  flex: 1;           /* занимает 1/3 высоты */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #1a1a1a;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+#profileInfo img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+#profileInfo h3, #profileInfo p {
+  margin: 0;
+  color: white;
+}
+
+#profileCards {
+  flex: 2;           /* занимает 2/3 высоты */
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: #111;
+  justify-content: center;
+}

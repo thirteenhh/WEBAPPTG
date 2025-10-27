@@ -1,16 +1,16 @@
-// === Telegram User ===
+// === Инициализация Telegram WebApp ===
 const tg = window.Telegram?.WebApp;
 tg?.ready();
 const tgUser = tg?.initDataUnsafe?.user || {};
 
-// Подставляем мини-профиль на главной странице
+// === Подставляем мини-профиль на главной странице ===
 document.addEventListener("DOMContentLoaded", () => {
   const avatarImg = document.getElementById("userAvatar");
   const nameSpan = document.getElementById("userName");
 
   avatarImg.src = tgUser.photo_url || "img/avatar.png";
-  nameSpan.textContent = tgUser.first_name 
-    ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "") 
+  nameSpan.textContent = tgUser.first_name
+    ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "")
     : "Имя пользователя";
 
   // === Настройка редкостей карточек ===
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { type: "def", chance: 30 }
   ];
 
-  // Случайная редкость
+  // === Получение случайной редкости ===
   function getRandomRarity() {
     const rand = Math.random() * 100;
     let sum = 0;
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return rarities[0].type;
   }
 
-  // Случайная карточка
+  // === Получение случайной карточки ===
   function getRandomCard() {
     const rarity = getRandomRarity();
     const totalCards = { kal: 8, def: 10 };
@@ -38,22 +38,23 @@ document.addEventListener("DOMContentLoaded", () => {
     return { rarity, image: `img/${rarity}${randomNum}.png` };
   }
 
-  // === Основная логика ===
+  // === Основная логика отображения карточек ===
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
   const menuButtons = document.querySelectorAll(".menuBtn");
   const pages = document.querySelectorAll(".page");
 
-  // Открытие карточки с подсветкой
+  // === Функция показа карточки с подсветкой ===
   function showCard() {
     const card = getRandomCard();
+
     const img = new Image();
     img.src = card.image;
     img.onload = () => {
       openBtn.style.display = "none";
 
-      // Выбираем цвет свечения по редкости
-      const glowColor = card.rarity === "kal" 
+      // Выбор цвета свечения в зависимости от редкости
+      const glowColor = card.rarity === "kal"
         ? "rgba(128,0,128,0.5)" // темно-фиолетовая
         : "rgba(0,255,0,0.5)";  // зелёная
 
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
+      // Добавляем кнопку "Открыть ещё" после анимации
       setTimeout(() => {
         const newBtn = document.createElement("button");
         newBtn.textContent = "Открыть ещё";
@@ -78,9 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  // === Событие на центральную кнопку "Открыть" ===
   openBtn.addEventListener("click", showCard);
 
-  // Переключение вкладок
+  // === Переключение вкладок нижнего меню ===
   menuButtons.forEach(button => {
     button.addEventListener("click", () => {
       menuButtons.forEach(btn => btn.classList.remove("active"));
@@ -88,11 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const pageId = button.dataset.page;
       pages.forEach(p => {
-        if (p.id === pageId) {
-          p.classList.add("active");
-        } else {
-          p.classList.remove("active");
-        }
+        p.classList.toggle("active", p.id === pageId);
       });
     });
   });

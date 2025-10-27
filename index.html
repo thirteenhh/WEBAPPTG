@@ -28,8 +28,16 @@
 
     <!-- Профиль -->
     <div id="pageProfile" class="page">
-      <h2>Профиль</h2>
-      <p>Здесь будет информация о пользователе</p>
+      <div class="profileTop">
+        <h2>Профиль пользователя</h2>
+        <div id="profileInfo">
+          <img id="profileAvatar" alt="Аватар">
+          <span id="profileName"></span>
+        </div>
+      </div>
+      <div class="profileBottom" id="profileCards">
+        <!-- Здесь будут показаны все уникальные выпавшие карточки -->
+      </div>
     </div>
 
     <!-- Настройки -->
@@ -54,16 +62,22 @@
     // Подгружаем аватарку и имя пользователя через Telegram Web App
     document.addEventListener("DOMContentLoaded", () => {
       const tg = window.Telegram.WebApp;
-      tg?.ready(); // убеждаемся, что WebApp полностью инициализирован
+      tg?.ready();
 
       const tgUser = tg?.initDataUnsafe?.user || {};
       const avatarImg = document.getElementById("userAvatar");
       const nameSpan = document.getElementById("userName");
+      const profileAvatar = document.getElementById("profileAvatar");
+      const profileName = document.getElementById("profileName");
 
-      avatarImg.src = tgUser.photo_url || "img/avatar.png";
-      nameSpan.textContent = tgUser.first_name 
+      const fullName = tgUser.first_name 
         ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "")
         : "Имя пользователя";
+
+      avatarImg.src = tgUser.photo_url || "img/avatar.png";
+      nameSpan.textContent = fullName;
+      profileAvatar.src = tgUser.photo_url || "img/avatar.png";
+      profileName.textContent = fullName;
     });
   </script>
 
