@@ -38,11 +38,11 @@
       <p>Здесь будут настройки игры</p>
     </div>
 
-    <!-- Нижнее меню -->
+    <!-- Нижнее меню: единый прямоугольник -->
     <div id="bottomMenu">
-      <button class="menuBtn active" data-page="pageMain">Главная</button>
-      <button class="menuBtn" data-page="pageProfile">Профиль</button>
-      <button class="menuBtn" data-page="pageSettings">Настройки</button>
+      <div class="menuBtn active" data-page="pageMain">Главная</div>
+      <div class="menuBtn" data-page="pageProfile">Профиль</div>
+      <div class="menuBtn" data-page="pageSettings">Настройки</div>
     </div>
 
   </div>
@@ -54,9 +54,9 @@
     // Подгружаем аватарку и имя пользователя через Telegram Web App
     document.addEventListener("DOMContentLoaded", () => {
       const tg = window.Telegram.WebApp;
-      tg.ready(); // убеждаемся, что WebApp полностью инициализирован
+      tg?.ready(); // убеждаемся, что WebApp полностью инициализирован
 
-      const tgUser = tg.initDataUnsafe?.user || {};
+      const tgUser = tg?.initDataUnsafe?.user || {};
       const avatarImg = document.getElementById("userAvatar");
       const nameSpan = document.getElementById("userName");
 

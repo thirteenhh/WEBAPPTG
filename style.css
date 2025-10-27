@@ -7,8 +7,8 @@ html, body {
   overflow: hidden;
   touch-action: none;
   font-family: sans-serif;
-  background-color: #111; /* фон страницы */
-  color: white; /* белый цвет текста по умолчанию */
+  background-color: #111;
+  color: white; /* белый текст */
 }
 
 /* Контейнер игры */
@@ -35,7 +35,6 @@ html, body {
   align-items: center;
   text-align: center;
 
-  /* Начальные состояния для анимации */
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   pointer-events: none;
@@ -73,7 +72,6 @@ html, body {
   text-align: center;
 }
 
-
 /* === Большая квадратная кнопка в центре === */
 #openCase {
   width: 150px;
@@ -87,6 +85,7 @@ html, body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   transition: transform 0.2s ease, background-color 0.3s;
 }
+
 #openCase:active {
   transform: scale(0.95);
   background-color: #45a049;
@@ -102,7 +101,7 @@ html, body {
   gap: 10px;
   padding: 0 10px;
   box-sizing: border-box;
-  z-index: 10; /* чтобы меню было выше страниц */
+  z-index: 10;
 }
 
 .menuBtn {
@@ -110,18 +109,20 @@ html, body {
   padding: 17px 0;
   margin: 0 5px;
   border-radius: 12px;
-  background-color: #1E90FF; /* кнопки оставляем без изменений */
+  background-color: #1E90FF;
   color: white;
   border: none;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
+
 .menuBtn:active {
   transform: scale(0.97);
 }
+
 .menuBtn.active {
-  background-color: #1565C0; /* активная вкладка */
+  background-color: #1565C0;
 }
 
 /* === Анимация выпадения карточки === */
