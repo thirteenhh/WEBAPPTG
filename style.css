@@ -250,30 +250,24 @@ html, body {
 
 /* === Профиль: нижняя часть с карточками === */
 #profileCards {
-  flex: 2;           /* занимает 2/3 высоты */
+  flex: 2;                     /* занимает 2/3 высоты */
   width: 100%;
   overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 колонки */
   gap: 12px;
   padding: 12px;
   box-sizing: border-box;
   background-color: #111;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-items: center;       /* по центру колонки */
+  align-items: start;
 }
 
 .profileCard {
-  width: 30%;          /* 3 карточки в ряд */
-  max-width: 120px;    /* не растягивать слишком */
+  width: 100%;                 /* занимает всю ширину колонки */
+  max-width: 120px;            /* ограничение максимальной ширины */
   height: 160px;
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
-
-const img = document.createElement("img");
-img.src = card.image;
-img.alt = card.rarity;
-img.classList.add("profileCard");
-profileCardsContainer.appendChild(img);
