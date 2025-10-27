@@ -160,9 +160,3 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProfile();
   }
 });
-
-const img = document.createElement("img");
-img.src = card.image;
-img.alt = card.rarity;
-img.classList.add("profileCard");
-profileCardsContainer.appendChild(img);
