@@ -12,36 +12,36 @@ function getRandomRarity() {
     sum += r.chance;
     if (rand <= sum) return r.type;
   }
-  return rarities[0].type; // на всякий случай, если что-то пойдёт не так
+  return rarities[0].type; // запасной вариант
 }
 
 // 🃏 Функция выбора случайной карточки
 function getRandomCard() {
   const rarity = getRandomRarity();
 
-  // Количество файлов каждой редкости (укажи реальное число)
+  // ⚙️ Укажи реальное количество карточек каждой редкости!
   const totalCards = {
-    kal: 8, // kal1.png - kal8.png
-    def: 10 // def1.png - def10.png
+    kal: 8, // kal1.png — kal8.png
+    def: 10 // def1.png — def10.png
   };
+
+  // Если вдруг нет такой редкости — безопасный возврат
+  if (!totalCards[rarity]) {
+    console.error("❌ Неизвестная редкость:", rarity);
+    return { rarity: "kal", image: "img/kal1.png" };
+  }
 
   const maxNum = totalCards[rarity];
   const randomNum = Math.floor(Math.random() * maxNum) + 1;
-  return {
-    rarity,
-    image: `img/${rarity}${randomNum}.png`
-  };
+  const imagePath = `img/${rarity}${randomNum}.png`;
+
+  console.log(`Выпала карта: ${rarity}${randomNum}.png`);
+  return { rarity, image: imagePath };
 }
 
 // 🧭 Telegram API
-const tg = window.Telegram.WebApp;
-tg.ready(); // говорит Telegram, что игра загрузилась
-console.log(tg.initDataUnsafe?.user); // безопасно логируем пользователя
-
-// 🔄 Проверка ориентации экрана
-if (window.innerHeight < window.innerWidth) {
-  alert("Пожалуйста, переверните устройство в портретный режим");
-}
+const tg = window.Telegram?.WebApp;
+if (tg) tg.ready();
 
 // 🧩 Когда страница готова
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,7 +52,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // 💥 Открытие кейса
   openBtn.addEventListener("click", () => {
     const card = getRandomCard();
-    display.innerHTML = `<img src="${card.image}" alt="${card.rarity}" style="width:200px;height:auto;border-radius:12px;">`;
+
+    // Если по какой-то причине картинка не найдена
+    if (!card || !card.image) {
+      display.innerHTML = `<p style="color:red;">Ошибка: карточка не найдена</p>`;
+      return;
+    }
+
+    display.innerHTML = `
+      <img src="${card.image}" 
+           alt="${card.rarity}" 
+           style="width:200px;height:auto;border-radius:12px;">
+    `;
   });
 
   // 🔘 Переключение активной вкладки меню
