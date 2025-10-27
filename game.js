@@ -47,13 +47,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const profileName = document.getElementById("profileName");
   const profileCardsContainer = document.getElementById("profileCards");
 
-  // === Локальная база пользователей (имитация users.json) ===
-  const usersDB = {}; // структура: usersDB[userId] = {cards: [...]}
+  // === Работа с локальной "базой" через localStorage ===
+  function getUsersDB() {
+    return JSON.parse(localStorage.getItem("usersDB") || "{}");
+  }
+
+  function saveUsersDB(db) {
+    localStorage.setItem("usersDB", JSON.stringify(db));
+  }
 
   function saveCardToUser(card) {
     const userId = tgUser.id;
-    if (!usersDB[userId]) {
-      usersDB[userId] = { 
+    const db = getUsersDB();
+
+    if (!db[userId]) {
+      db[userId] = {
         id: userId,
         first_name: tgUser.first_name || "",
         last_name: tgUser.last_name || "",
@@ -62,21 +70,28 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     }
 
-    const alreadyHave = usersDB[userId].cards.some(c => c.image === card.image);
-    if (!alreadyHave) {
-      usersDB[userId].cards.push(card);
+    // Сохраняем уникальные карточки
+    if (!db[userId].cards.some(c => c.image === card.image)) {
+      db[userId].cards.push(card);
     }
+
+    saveUsersDB(db);
+  }
+
+  function getUserCards() {
+    const db = getUsersDB();
+    return db[tgUser.id]?.cards || [];
   }
 
   function renderProfile() {
-    const userId = tgUser.id;
-    const user = usersDB[userId];
+    const db = getUsersDB();
+    const user = db[tgUser.id];
     if (!user) return;
 
     profileAvatar.src = user.avatar;
     profileName.textContent = user.first_name + (user.last_name ? " " + user.last_name : "");
 
-    profileCardsContainer.innerHTML = ""; // очищаем старое
+    profileCardsContainer.innerHTML = ""; // очищаем перед рендером
     user.cards.forEach(card => {
       const img = document.createElement("img");
       img.src = card.image;
@@ -95,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
     img.onload = () => {
       openBtn.style.display = "none";
 
-      // Цвет свечения
       const glowColor = card.rarity === "kal"
         ? "rgba(128,0,128,0.5)"
         : "rgba(0,255,0,0.5)";
@@ -106,10 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      saveCardToUser(card); // сохраняем в "базу"
-      renderProfile();      // обновляем профиль
+      saveCardToUser(card);
+      renderProfile();
 
-      // Кнопка "Открыть ещё"
       setTimeout(() => {
         const newBtn = document.createElement("button");
         newBtn.textContent = "Открыть ещё";
@@ -134,9 +147,16 @@ document.addEventListener("DOMContentLoaded", () => {
       button.classList.add("active");
 
       const pageId = button.dataset.page;
-      pages.forEach(p => {
-        p.classList.toggle("active", p.id === pageId);
-      });
+      pages.forEach(p => p.classList.toggle("active", p.id === pageId));
+
+      if (pageId === "pageProfile") {
+        renderProfile();
+      }
     });
   });
+
+  // === При загрузке сразу рендерим профиль, если открыт ===
+  if (document.querySelector(".menuBtn.active")?.dataset.page === "pageProfile") {
+    renderProfile();
+  }
 });
