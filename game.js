@@ -12,38 +12,37 @@ function getRandomRarity() {
     sum += r.chance;
     if (rand <= sum) return r.type;
   }
-  return rarities[0].type; // запасной вариант
+  return rarities[0].type; // fallback
 }
 
 // 🃏 Функция выбора случайной карточки
 function getRandomCard() {
   const rarity = getRandomRarity();
 
-  // ⚙️ Укажи реальное количество карточек каждой редкости!
+  // Укажи реальное количество карт каждой редкости
   const totalCards = {
     kal: 8, // kal1.png — kal8.png
     def: 10 // def1.png — def10.png
   };
 
-  // Если вдруг нет такой редкости — безопасный возврат
-  if (!totalCards[rarity]) {
-    console.error("❌ Неизвестная редкость:", rarity);
-    return { rarity: "kal", image: "img/kal1.png" };
-  }
-
-  const maxNum = totalCards[rarity];
+  const maxNum = totalCards[rarity] || 1; // на случай ошибки
   const randomNum = Math.floor(Math.random() * maxNum) + 1;
   const imagePath = `img/${rarity}${randomNum}.png`;
 
-  console.log(`Выпала карта: ${rarity}${randomNum}.png`);
-  return { rarity, image: imagePath };
+  console.log(`🎴 Выпала карта: ${rarity}${randomNum}.png`);
+
+  return {
+    rarity,
+    image: imagePath
+  };
 }
 
-// 🧭 Telegram API
-const tg = window.Telegram?.WebApp;
-if (tg) tg.ready();
+// 🧭 Telegram WebApp API
+if (window.Telegram?.WebApp) {
+  window.Telegram.WebApp.ready();
+}
 
-// 🧩 Когда страница готова
+// 🧩 Основная логика игры
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
@@ -53,20 +52,23 @@ document.addEventListener("DOMContentLoaded", () => {
   openBtn.addEventListener("click", () => {
     const card = getRandomCard();
 
-    // Если по какой-то причине картинка не найдена
     if (!card || !card.image) {
       display.innerHTML = `<p style="color:red;">Ошибка: карточка не найдена</p>`;
       return;
     }
 
+    // Показываем картинку
     display.innerHTML = `
       <img src="${card.image}" 
            alt="${card.rarity}" 
            style="width:200px;height:auto;border-radius:12px;">
+      <p style="margin-top:10px;font-weight:bold;">
+        Выпала: ${card.rarity.toUpperCase()}
+      </p>
     `;
   });
 
-  // 🔘 Переключение активной вкладки меню
+  // 🔘 Активные вкладки меню
   menuButtons.forEach(button => {
     button.addEventListener('click', () => {
       menuButtons.forEach(btn => btn.classList.remove('active'));
