@@ -71,7 +71,7 @@ html, body {
   opacity: 0;
   transform: scale(0.7) rotate(3deg);
   filter: blur(10px);
-  animation: cardReveal 1s ease forwards;
+  animation: cardReveal 0.9s ease-out forwards;
 }
 
 @keyframes cardReveal {
@@ -88,8 +88,10 @@ html, body {
   100% {
     opacity: 1;
     transform: scale(1) rotate(0);
+    filter: none; /* <-- теперь blur точно выключен */
   }
 }
+
 
 /* === Анимация появления кнопки "Открыть ещё" === */
 .fadeIn {
