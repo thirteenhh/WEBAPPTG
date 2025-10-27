@@ -77,7 +77,7 @@ html, body {
   width: 150px;
   height: 150px;
   border-radius: 20px;
-  background-color: #4CAF50;
+  background-color: #333333;
   color: white;
   font-size: 24px;
   border: none;
@@ -98,7 +98,7 @@ html, body {
   left: 10px;
   right: 10px;
   height: 60px;
-  background-color: #1E90FF;
+  background-color: #333333;
   border-radius: 30px;
   display: flex;
   overflow: hidden; /* чтобы части не выходили за границы */
@@ -210,7 +210,7 @@ html, body {
   display: block;
   margin: 16px auto 0;
   padding: 12px 24px;
-  background: linear-gradient(180deg, #007aff, #0057d9);
+  background: linear-gradient(180deg, #333333, #292929);
   color: white;
   border: none;
   border-radius: 12px;
