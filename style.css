@@ -12,13 +12,13 @@ html, body {
 
 /* Контейнер игры */
 #gameContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
-  position: relative;
 }
 
 /* Все страницы поверх друг друга */
@@ -36,22 +36,19 @@ html, body {
 
   /* Начальные состояния для анимации */
   opacity: 0;
-  transform: scale(0.95) translateY(10px);
-  pointer-events: none; /* неактивные страницы некликабельны */
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 0;
 }
 
 /* Активная страница */
 .page.active {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
   z-index: 1;
 }
-
-
-
-
 
 /* === Большая квадратная кнопка в центре === */
 #openCase {
@@ -64,18 +61,24 @@ html, body {
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background-color 0.3s;
+}
+#openCase:active {
+  transform: scale(0.95);
+  background-color: #45a049;
 }
 
 /* === Нижнее меню === */
 #bottomMenu {
   position: absolute;
-  bottom: 20px;       /* отступ от низа экрана */
+  bottom: 20px;
   left: 0;
   width: 100%;
   display: flex;
-  gap: 10px;          /* расстояние между кнопками */
-  padding: 0 10px;    /* отступы от краёв */
+  gap: 10px;
+  padding: 0 10px;
   box-sizing: border-box;
+  z-index: 10; /* чтобы меню было выше страниц */
 }
 
 .menuBtn {
@@ -83,17 +86,18 @@ html, body {
   padding: 17px 0;
   margin: 0 5px;
   border-radius: 12px;
-  background-color: #1E90FF; /* синий цвет по умолчанию */
+  background-color: #1E90FF;
   color: white;
   border: none;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
-
-/* Активная вкладка */
+.menuBtn:active {
+  transform: scale(0.97);
+}
 .menuBtn.active {
-  background-color: #1565C0; /* темнее синий */
+  background-color: #1565C0; /* темнее синий для активной вкладки */
 }
 
 /* === Анимация выпадения карточки === */

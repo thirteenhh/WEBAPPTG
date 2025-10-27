@@ -15,33 +15,30 @@
   <!-- Контейнер игры -->
   <div id="gameContainer">
 
-    <!-- Главная страница -->
+    <!-- Страницы -->
     <div id="pageMain" class="page active">
       <button id="openCase">Открыть</button>
       <div id="cardDisplay"></div>
     </div>
 
-    <!-- Профиль -->
     <div id="pageProfile" class="page">
       <h2>Профиль</h2>
       <p>Здесь будет информация о пользователе</p>
     </div>
 
-    <!-- Настройки -->
     <div id="pageSettings" class="page">
       <h2>Настройки</h2>
       <p>Здесь будут настройки игры</p>
     </div>
 
-  <!-- Нижнее меню -->
+    <!-- Нижнее меню вынесено **после страниц** для кликабельности -->
     <div id="bottomMenu">
       <button class="menuBtn active" data-page="pageMain">Главная</button>
       <button class="menuBtn" data-page="pageProfile">Профиль</button>
       <button class="menuBtn" data-page="pageSettings">Настройки</button>
     </div>
+
   </div>
-
-
 
   <!-- Подключение игрового JS -->
   <script src="game.js"></script>
