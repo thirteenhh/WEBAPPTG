@@ -28,12 +28,14 @@ function getRandomCard() {
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
+  const menuButtons = document.querySelectorAll(".menuBtn");
+  const pages = document.querySelectorAll(".page");
 
   // === Функция открытия карточки ===
   function showCard() {
     const card = getRandomCard();
 
-    // Предзагрузка картинки, чтобы не грузилась частями
+    // Предзагрузка картинки
     const img = new Image();
     img.src = card.image;
     img.onload = () => {
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         newBtn.addEventListener("click", () => {
           newBtn.remove();
-          showCard(); // повторное открытие
+          showCard();
         });
       }, 1000);
     };
@@ -61,21 +63,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openBtn.addEventListener("click", showCard);
 
-  // === Переключение вкладок (страниц) ===
-  const menuButtons = document.querySelectorAll(".menuBtn");
-  const pages = document.querySelectorAll(".page");
-
+  // === Переключение вкладок ===
   menuButtons.forEach((button) => {
     button.addEventListener("click", () => {
       // Активная кнопка
       menuButtons.forEach((btn) => btn.classList.remove("active"));
       button.classList.add("active");
 
-      // Показать соответствующую страницу
+      // Показать соответствующую страницу с анимацией
       const pageId = button.dataset.page;
-      pages.forEach((p) => p.classList.remove("active"));
-      const page = document.getElementById(pageId);
-      if (page) page.classList.add("active");
+      pages.forEach((p) => {
+        if (p.id === pageId) {
+          p.classList.add("active");
+          // Форсируем перерисовку для плавного эффекта
+          void p.offsetWidth;
+          p.style.opacity = "1";
+          p.style.transform = "translateY(0)";
+        } else {
+          p.classList.remove("active");
+          p.style.opacity = "0";
+          p.style.transform = "translateY(10px)";
+        }
+      });
     });
   });
 });
