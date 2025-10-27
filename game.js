@@ -166,4 +166,3 @@ img.src = card.image;
 img.alt = card.rarity;
 img.classList.add("profileCard");
 profileCardsContainer.appendChild(img);
-
