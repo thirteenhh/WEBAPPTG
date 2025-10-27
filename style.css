@@ -23,19 +23,18 @@ html, body {
 
 /* === Страницы (для вкладок) === */
 .page {
-  display: none; /* по умолчанию скрыты */
+  display: none; /* скрыты по умолчанию */
   width: 100%;
   height: 100%;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
 }
 
 .page.active {
-  display: flex; /* активная страница видима */
+  display: flex; /* показываем только активную */
 }
+
 
 /* === Большая квадратная кнопка в центре === */
 #openCase {

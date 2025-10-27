@@ -51,10 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
         newBtn.classList.add("fadeIn");
         display.appendChild(newBtn);
 
-        newBtn.onclick = () => {
+        newBtn.addEventListener("click", () => {
           newBtn.remove();
-          showCard(); // повторно открыть кейс
-        };
+          showCard(); // повторное открытие
+        });
       }, 1000);
     };
   }
@@ -62,19 +62,20 @@ document.addEventListener("DOMContentLoaded", () => {
   openBtn.addEventListener("click", showCard);
 
   // === Переключение вкладок (страниц) ===
-  const menuButtons = document.querySelectorAll('.menuBtn');
-  const pages = document.querySelectorAll('.page');
+  const menuButtons = document.querySelectorAll(".menuBtn");
+  const pages = document.querySelectorAll(".page");
 
-  menuButtons.forEach(button => {
-    button.addEventListener('click', () => {
+  menuButtons.forEach((button) => {
+    button.addEventListener("click", () => {
       // Активная кнопка
-      menuButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
+      menuButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
 
       // Показать соответствующую страницу
       const pageId = button.dataset.page;
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
+      pages.forEach((p) => p.classList.remove("active"));
+      const page = document.getElementById(pageId);
+      if (page) page.classList.add("active");
     });
   });
 });
