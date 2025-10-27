@@ -91,14 +91,14 @@ html, body {
   background-color: #45a049;
 }
 
-/* === Нижнее меню — монолитный прямоугольник с тремя текстовыми секциями === */
+/* Нижнее меню — монолитный прямоугольник */
 #bottomMenu {
   position: absolute;
   bottom: 20px;
   left: 10px;
   right: 10px;
   height: 60px;
-  background-color: #333333;
+  background-color: #333333; /* очень тёмный фон */
   border-radius: 30px;
   display: flex;
   overflow: hidden;
@@ -116,17 +116,17 @@ html, body {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   user-select: none;
-  background-color: transparent;
+  background-color: transparent; /* текст поверх монолита */
 }
 
-/* Активная вкладка подсвечивается цветом */
+/* Активная вкладка — немного светлее */
 .menuBtn.active {
-  background-color: rgba(255,255,255,0.15); /* более заметное выделение */
+  background-color: #555555; /* серый */
 }
 
-/* При нажатии слегка темнеет */
+/* При нажатии кнопка темнеет */
 .menuBtn:active {
-  background-color: rgba(255,255,255,0.25);
+  background-color: #444444;
 }
 
 /* === Анимация выпадения карточки === */
