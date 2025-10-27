@@ -55,24 +55,24 @@ html, body {
 #miniProfile {
   position: absolute;
   top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  background-color: rgba(0,0,0,0.4);
+  gap: 4px;
+}
+
+#miniProfile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+#miniProfile span {
   color: white;
   font-size: 14px;
-  z-index: 5;
+  text-align: center;
 }
-#miniProfile img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+
 
 /* === Большая квадратная кнопка в центре === */
 #openCase {
