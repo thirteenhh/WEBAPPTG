@@ -91,39 +91,43 @@ html, body {
   background-color: #45a049;
 }
 
-/* === Нижнее меню === */
+/* === Нижнее меню — монолитный прямоугольник с тремя секциями === */
 #bottomMenu {
   position: absolute;
   bottom: 20px;
-  left: 0;
-  width: 100%;
+  left: 10px;
+  right: 10px;
+  height: 60px;
+  background-color: #1E90FF;
+  border-radius: 30px;
   display: flex;
-  gap: 10px;
-  padding: 0 10px;
-  box-sizing: border-box;
+  overflow: hidden; /* чтобы текстовые секции не выходили за границы */
   z-index: 10;
 }
 
+/* Текстовые кнопки внутри */
 .menuBtn {
-  flex: 1;
-  padding: 17px 0;
-  margin: 0 5px;
-  border-radius: 12px;
-  background-color: #1E90FF;
+  flex: 1; /* равные части */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
-  border: none;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s, color 0.3s;
+  user-select: none;
 }
 
-.menuBtn:active {
-  transform: scale(0.97);
-}
-
+/* Активная вкладка подсвечивается цветом */
 .menuBtn.active {
-  background-color: #1565C0;
+  background-color: #1565C0; /* темнее */
 }
+
+/* При нажатии слегка темнеет (эффект нажатия) */
+.menuBtn:active {
+  background-color: #0f3f7a;
+}
+
 
 /* === Анимация выпадения карточки === */
 .cardAnimation {
