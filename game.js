@@ -1,10 +1,8 @@
-// 🎴 Настройка шансов выпадения редкостей
 const rarities = [
   { type: "kal", chance: 70 }, // говно
   { type: "def", chance: 30 }  // обычная
 ];
 
-// 🎲 Функция выбора случайной редкости
 function getRandomRarity() {
   const rand = Math.random() * 100;
   let sum = 0;
@@ -12,55 +10,61 @@ function getRandomRarity() {
     sum += r.chance;
     if (rand <= sum) return r.type;
   }
-  return rarities[0].type;
 }
 
-// 🃏 Функция выбора случайной карточки
 function getRandomCard() {
   const rarity = getRandomRarity();
-
-  // Количество карточек каждой редкости
   const totalCards = {
     kal: 8,
     def: 10
   };
-
-  const maxNum = totalCards[rarity] || 1;
+  const maxNum = totalCards[rarity];
   const randomNum = Math.floor(Math.random() * maxNum) + 1;
-
-  // ✅ Используем абсолютный путь к GitHub Pages
-  const imagePath = `https://thirteenhh.github.io/WEBAPPTG/img/${rarity}${randomNum}.png`;
-
-  console.log(`🎴 Выпала карта: ${rarity}${randomNum}.png`);
-  console.log(`🖼 Путь: ${imagePath}`);
-
-  return { rarity, image: imagePath };
+  return {
+    rarity,
+    image: `img/${rarity}${randomNum}.png`
+  };
 }
 
-// 🧩 Основная логика
+// === ОСНОВНАЯ ЛОГИКА ===
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
-  const menuButtons = document.querySelectorAll('.menuBtn');
+  const bottomMenu = document.getElementById("bottomMenu");
 
-  // 💥 Открытие кейса
-  openBtn.addEventListener("click", () => {
+  function showCard() {
     const card = getRandomCard();
 
-    if (!card || !card.image) {
-      display.innerHTML = `<p style="color:red;">Ошибка: карточка не найдена</p>`;
-      return;
-    }
+    // мгновенная подгрузка (чтобы не было "по частям")
+    const img = new Image();
+    img.src = card.image;
+    img.onload = () => {
+      // скрываем кнопку
+      openBtn.style.display = "none";
 
-    display.innerHTML = `
-      <img src="${card.image}" 
-           alt="${card.rarity}" 
-           style="width:200px;height:auto;border-radius:12px;display:block;margin:20px auto;">
-      <p style="text-align:center;font-weight:bold;">Выпала: ${card.rarity.toUpperCase()}</p>
-    `;
-  });
+      // показываем карточку с анимацией
+      display.innerHTML = `<img src="${card.image}" alt="${card.rarity}" class="cardAnimation">`;
 
-  // 🔘 Меню вкладок
+      // через 1 секунду после появления карточки
+      setTimeout(() => {
+        const newBtn = document.createElement("button");
+        newBtn.textContent = "Открыть ещё";
+        newBtn.id = "openAgain";
+        newBtn.classList.add("fadeIn");
+        display.appendChild(newBtn);
+
+        newBtn.onclick = () => {
+          newBtn.remove();
+          showCard(); // повторно открыть
+        };
+      }, 1000);
+    };
+  }
+
+  openBtn.addEventListener("click", showCard);
+
+  // нижнее меню
+  const menuButtons = document.querySelectorAll('.menuBtn');
   menuButtons.forEach(button => {
     button.addEventListener('click', () => {
       menuButtons.forEach(btn => btn.classList.remove('active'));
