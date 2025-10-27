@@ -158,6 +158,27 @@ html, body {
   }
 }
 
+/* === Свечение под карточкой === */
+.cardWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cardWrapper::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;      /* размер свечения, можно увеличить или уменьшить */
+  height: 200px;     /* размер свечения */
+  background-color: var(--glow-color);
+  border-radius: 50%;
+  filter: blur(60px); /* размытость свечения */
+  transform: translate(-50%, -50%);
+  z-index: -1;        /* чтобы свечения было под картой */
+}
+
+
 /* === Анимация появления кнопки "Открыть ещё" === */
 .fadeIn {
   display: block;
@@ -177,3 +198,4 @@ html, body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
