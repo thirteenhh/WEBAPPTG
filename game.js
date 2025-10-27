@@ -63,26 +63,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openBtn.addEventListener("click", showCard);
 
-  // === Переключение вкладок ===
+  // === Переключение вкладок с анимацией ===
   menuButtons.forEach((button) => {
     button.addEventListener("click", () => {
       // Активная кнопка
       menuButtons.forEach((btn) => btn.classList.remove("active"));
       button.classList.add("active");
 
-      // Показать соответствующую страницу с анимацией
       const pageId = button.dataset.page;
+
       pages.forEach((p) => {
         if (p.id === pageId) {
-          p.classList.add("active");
-          // Форсируем перерисовку для плавного эффекта
-          void p.offsetWidth;
-          p.style.opacity = "1";
-          p.style.transform = "translateY(0)";
+          p.classList.add("active");      // CSS анимация fade + scale
         } else {
           p.classList.remove("active");
-          p.style.opacity = "0";
-          p.style.transform = "translateY(10px)";
         }
       });
     });
