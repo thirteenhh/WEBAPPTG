@@ -237,18 +237,6 @@ html, body {
   background-color: #1a1a1a;
 }
 
-#profileInfo img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-#profileInfo h3, #profileInfo p {
-  margin: 0;
-  color: white;
-}
-
 /* === Профиль: нижняя часть с карточками === */
 #profileCards {
   flex: 2;                      /* занимает 2/3 высоты */
