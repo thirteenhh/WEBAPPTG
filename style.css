@@ -92,18 +92,22 @@ html, body {
   background-color: #45a049;
 }
 
-/* Нижнее меню — монолитный прямоугольник */
+/* Нижнее меню — монолитный прямоугольник с размытием фона */
 #bottomMenu {
   position: absolute;
   bottom: 20px;
   left: 10px;
   right: 10px;
   height: 60px;
-  background-color: #333333;
   border-radius: 30px;
   display: flex;
   overflow: hidden;
   z-index: 10;
+
+  background-color: rgba(51, 51, 51, 0.6); /* прозрачный фон */
+  backdrop-filter: blur(10px);             /* размытие всего, что позади */
+  -webkit-backdrop-filter: blur(10px);     /* для Safari */
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 /* Текстовые кнопки внутри */
@@ -122,13 +126,14 @@ html, body {
 
 /* Активная вкладка — немного светлее */
 .menuBtn.active {
-  background-color: #555555;
+  background-color: rgba(85, 85, 85, 0.6);
 }
 
 /* При нажатии кнопка темнеет */
 .menuBtn:active {
-  background-color: #444444;
+  background-color: rgba(68, 68, 68, 0.6);
 }
+
 
 /* === Анимация выпадения карточки === */
 .cardAnimation {
