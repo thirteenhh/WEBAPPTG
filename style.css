@@ -8,6 +8,7 @@ html, body {
   touch-action: none;
   font-family: sans-serif;
   background-color: #111; /* фон страницы */
+  color: white; /* белый цвет текста по умолчанию */
 }
 
 /* Контейнер игры */
@@ -50,6 +51,29 @@ html, body {
   z-index: 1;
 }
 
+/* === Мини-профиль сверху на главной странице === */
+#miniProfile {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background-color: rgba(0,0,0,0.4);
+  color: white;
+  font-size: 14px;
+  z-index: 5;
+}
+#miniProfile img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* === Большая квадратная кнопка в центре === */
 #openCase {
   width: 150px;
@@ -86,7 +110,7 @@ html, body {
   padding: 17px 0;
   margin: 0 5px;
   border-radius: 12px;
-  background-color: #1E90FF;
+  background-color: #1E90FF; /* кнопки оставляем без изменений */
   color: white;
   border: none;
   font-size: 16px;
@@ -97,7 +121,7 @@ html, body {
   transform: scale(0.97);
 }
 .menuBtn.active {
-  background-color: #1565C0; /* темнее синий для активной вкладки */
+  background-color: #1565C0; /* активная вкладка */
 }
 
 /* === Анимация выпадения карточки === */
