@@ -44,14 +44,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuButtons = document.querySelectorAll(".menuBtn");
   const pages = document.querySelectorAll(".page");
 
-  // Открытие карточки
+  // Открытие карточки с подсветкой
   function showCard() {
     const card = getRandomCard();
     const img = new Image();
     img.src = card.image;
     img.onload = () => {
       openBtn.style.display = "none";
-      display.innerHTML = `<img src="${card.image}" alt="${card.rarity}" class="cardAnimation">`;
+
+      // Выбираем цвет свечения по редкости
+      const glowColor = card.rarity === "kal" 
+        ? "rgba(128,0,128,0.5)" // темно-фиолетовая
+        : "rgba(0,255,0,0.5)";  // зелёная
+
+      display.innerHTML = `
+        <div class="cardWrapper" style="--glow-color: ${glowColor};">
+          <img src="${card.image}" alt="${card.rarity}" class="cardAnimation">
+        </div>
+      `;
 
       setTimeout(() => {
         const newBtn = document.createElement("button");

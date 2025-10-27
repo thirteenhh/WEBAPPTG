@@ -91,7 +91,7 @@ html, body {
   background-color: #45a049;
 }
 
-/* === Нижнее меню — монолитный прямоугольник с тремя секциями === */
+/* === Нижнее меню — монолитный прямоугольник с тремя текстовыми секциями === */
 #bottomMenu {
   position: absolute;
   bottom: 20px;
@@ -101,13 +101,13 @@ html, body {
   background-color: #1E90FF;
   border-radius: 30px;
   display: flex;
-  overflow: hidden; /* чтобы текстовые секции не выходили за границы */
+  overflow: hidden; /* чтобы части не выходили за границы */
   z-index: 10;
 }
 
 /* Текстовые кнопки внутри */
 .menuBtn {
-  flex: 1; /* равные части */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,18 +116,18 @@ html, body {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   user-select: none;
+  background-color: transparent; /* текстовые кнопки поверх монолита */
 }
 
 /* Активная вкладка подсвечивается цветом */
 .menuBtn.active {
-  background-color: #1565C0; /* темнее */
+  background-color: rgba(0,0,0,0.2);
 }
 
-/* При нажатии слегка темнеет (эффект нажатия) */
+/* При нажатии слегка темнеет */
 .menuBtn:active {
-  background-color: #0f3f7a;
+  background-color: rgba(0,0,0,0.4);
 }
-
 
 /* === Анимация выпадения карточки === */
 .cardAnimation {
