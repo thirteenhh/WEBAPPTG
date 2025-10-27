@@ -21,9 +21,9 @@ html, body {
   position: relative;
 }
 
-/* === Плавное появление страниц === */
+/* Все страницы поверх друг друга */
 .page {
-  position: absolute; /* все страницы поверх друг друга */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -37,16 +37,18 @@ html, body {
   /* Начальные состояния для анимации */
   opacity: 0;
   transform: scale(0.95) translateY(10px);
-  pointer-events: none; /* чтобы не кликабельны, пока не активны */
+  pointer-events: none; /* неактивные страницы некликабельны */
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
+/* Активная страница */
 .page.active {
   opacity: 1;
   transform: scale(1) translateY(0);
-  pointer-events: auto; /* только активная страница кликабельна */
-  z-index: 1; /* активная поверх остальных */
+  pointer-events: auto;
+  z-index: 1;
 }
+
 
 
 

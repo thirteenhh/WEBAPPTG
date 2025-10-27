@@ -63,22 +63,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openBtn.addEventListener("click", showCard);
 
-  // === Переключение вкладок с анимацией ===
   menuButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      // Активная кнопка
-      menuButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
+  button.addEventListener("click", () => {
+    // Активная кнопка
+    menuButtons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
 
-      const pageId = button.dataset.page;
+    const pageId = button.dataset.page;
 
-      pages.forEach((p) => {
-        if (p.id === pageId) {
-          p.classList.add("active");      // CSS анимация fade + scale
-        } else {
-          p.classList.remove("active");
-        }
-      });
+    pages.forEach((p) => {
+      if (p.id === pageId) {
+        p.classList.add("active"); // плавно появляется
+      } else {
+        p.classList.remove("active"); // плавно скрывается
+      }
     });
   });
+});
 });
