@@ -225,15 +225,16 @@ html, body {
 
 /* === Профиль: верхняя часть с инфой о пользователе === */
 #profileInfo {
-  flex: 1;           /* занимает 1/3 высоты */
+  flex: 1;                     /* занимает 1/3 высоты */
+  width: 100%;                 /* растягиваем на всю ширину */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;         /* горизонтально */
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background-color: #1a1a1a;
+  justify-content: flex-start; /* информация слева */
+  gap: 16px;
   padding: 16px;
   box-sizing: border-box;
+  background-color: #1a1a1a;
 }
 
 #profileInfo img {
@@ -250,22 +251,23 @@ html, body {
 
 /* === Профиль: нижняя часть с карточками === */
 #profileCards {
-  flex: 2;                     /* занимает 2/3 высоты */
+  flex: 2;                      /* занимает 2/3 высоты */
   width: 100%;
-  overflow-y: auto;
+  overflow-y: auto;              /* прокрутка именно здесь */
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 колонки */
   gap: 12px;
   padding: 12px;
   box-sizing: border-box;
   background-color: #111;
-  justify-items: center;       /* по центру колонки */
+  justify-items: center;          /* выравнивание карточек по центру */
   align-items: start;
 }
 
+/* === Отдельный стиль карточек === */
 .profileCard {
-  width: 100%;                 /* занимает всю ширину колонки */
-  max-width: 120px;            /* ограничение максимальной ширины */
+  width: 100%;                   /* занимает всю ширину колонки */
+  max-width: 120px;              /* ограничение ширины */
   height: 160px;
   object-fit: cover;
   border-radius: 12px;
