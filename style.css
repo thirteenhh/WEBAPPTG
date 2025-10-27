@@ -8,7 +8,7 @@ html, body {
   touch-action: none;
   font-family: sans-serif;
   background-color: #111;
-  color: white; /* белый текст */
+  color: white;
 }
 
 /* Контейнер игры */
@@ -101,7 +101,7 @@ html, body {
   background-color: #333333;
   border-radius: 30px;
   display: flex;
-  overflow: hidden; /* чтобы части не выходили за границы */
+  overflow: hidden;
   z-index: 10;
 }
 
@@ -116,17 +116,17 @@ html, body {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   user-select: none;
-  background-color: transparent; /* текстовые кнопки поверх монолита */
+  background-color: transparent;
 }
 
 /* Активная вкладка подсвечивается цветом */
 .menuBtn.active {
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(255,255,255,0.15); /* более заметное выделение */
 }
 
 /* При нажатии слегка темнеет */
 .menuBtn:active {
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(255,255,255,0.25);
 }
 
 /* === Анимация выпадения карточки === */
@@ -197,13 +197,12 @@ html, body {
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.1); /* увеличиваем на 10% */
+    transform: translate(-50%, -50%) scale(1.1);
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
   }
 }
-
 
 /* === Анимация появления кнопки "Открыть ещё" === */
 .fadeIn {
@@ -224,4 +223,3 @@ html, body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
