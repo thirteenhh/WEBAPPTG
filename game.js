@@ -12,37 +12,32 @@ function getRandomRarity() {
     sum += r.chance;
     if (rand <= sum) return r.type;
   }
-  return rarities[0].type; // fallback
+  return rarities[0].type;
 }
 
 // 🃏 Функция выбора случайной карточки
 function getRandomCard() {
   const rarity = getRandomRarity();
 
-  // Укажи реальное количество карт каждой редкости
+  // Количество карточек каждой редкости
   const totalCards = {
-    kal: 8, // kal1.png — kal8.png
-    def: 10 // def1.png — def10.png
+    kal: 8,
+    def: 10
   };
 
-  const maxNum = totalCards[rarity] || 1; // на случай ошибки
+  const maxNum = totalCards[rarity] || 1;
   const randomNum = Math.floor(Math.random() * maxNum) + 1;
-  const imagePath = `img/${rarity}${randomNum}.png`;
+
+  // ✅ Используем абсолютный путь к GitHub Pages
+  const imagePath = `https://thirteenhh.github.io/WEBAPPTG/img/${rarity}${randomNum}.png`;
 
   console.log(`🎴 Выпала карта: ${rarity}${randomNum}.png`);
+  console.log(`🖼 Путь: ${imagePath}`);
 
-  return {
-    rarity,
-    image: imagePath
-  };
+  return { rarity, image: imagePath };
 }
 
-// 🧭 Telegram WebApp API
-if (window.Telegram?.WebApp) {
-  window.Telegram.WebApp.ready();
-}
-
-// 🧩 Основная логика игры
+// 🧩 Основная логика
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
@@ -57,18 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Показываем картинку
     display.innerHTML = `
       <img src="${card.image}" 
            alt="${card.rarity}" 
-           style="width:200px;height:auto;border-radius:12px;">
-      <p style="margin-top:10px;font-weight:bold;">
-        Выпала: ${card.rarity.toUpperCase()}
-      </p>
+           style="width:200px;height:auto;border-radius:12px;display:block;margin:20px auto;">
+      <p style="text-align:center;font-weight:bold;">Выпала: ${card.rarity.toUpperCase()}</p>
     `;
   });
 
-  // 🔘 Активные вкладки меню
+  // 🔘 Меню вкладок
   menuButtons.forEach(button => {
     button.addEventListener('click', () => {
       menuButtons.forEach(btn => btn.classList.remove('active'));

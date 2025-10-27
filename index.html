@@ -30,28 +30,7 @@
 
   </div>
 
-  <!-- Подключение JS -->
+  <!-- Подключение игрового JS -->
   <script src="game.js"></script>
-
-  <!-- Код открытия кейса -->
-  <script>
-    // Убедимся, что DOM загружен
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById("openCase").onclick = () => {
-        const card = getRandomCard();
-        document.getElementById("cardDisplay").innerText = `${card.name}`;
-      };
-
-      // Активная вкладка нижнего меню
-      const menuButtons = document.querySelectorAll('.menuBtn');
-      menuButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          menuButtons.forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-        });
-      });
-    });
-  </script>
-
 </body>
 </html>
