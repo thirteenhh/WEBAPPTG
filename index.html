@@ -18,7 +18,7 @@
     <!-- Главная страница -->
     <div id="pageMain" class="page active">
       <div id="miniProfile">
-        <img id="userAvatar" src="" alt="Аватар">
+        <img id="userAvatar" alt="Аватар">
         <span id="userName"></span>
       </div>
 
@@ -53,18 +53,17 @@
   <script>
     // Подгружаем аватарку и имя пользователя через Telegram Web App
     document.addEventListener("DOMContentLoaded", () => {
-      const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
+      const tg = window.Telegram.WebApp;
+      tg.ready(); // убеждаемся, что WebApp полностью инициализирован
+
+      const tgUser = tg.initDataUnsafe?.user || {};
       const avatarImg = document.getElementById("userAvatar");
       const nameSpan = document.getElementById("userName");
 
-      if (tgUser) {
-        avatarImg.src = tgUser.photo_url || "img/avatar.png"; // fallback на локальный аватар
-        nameSpan.textContent = tgUser.first_name || "Имя пользователя";
-      } else {
-        // Если пользователь не доступен, показываем заглушку
-        avatarImg.src = "img/avatar.png";
-        nameSpan.textContent = "Имя пользователя";
-      }
+      avatarImg.src = tgUser.photo_url || "img/avatar.png";
+      nameSpan.textContent = tgUser.first_name 
+        ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "")
+        : "Имя пользователя";
     });
   </script>
 

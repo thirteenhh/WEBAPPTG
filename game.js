@@ -8,23 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const avatarImg = document.getElementById("userAvatar");
   const nameSpan = document.getElementById("userName");
 
-  if (tgUser) {
-    avatarImg.src = tgUser.photo_url || "img/avatar.png"; // fallback
-    nameSpan.textContent = tgUser.first_name 
-      ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "") 
-      : "Имя пользователя";
-  } else {
-    avatarImg.src = "img/avatar.png";
-    nameSpan.textContent = "Имя пользователя";
-  }
+  avatarImg.src = tgUser.photo_url || "img/avatar.png";
+  nameSpan.textContent = tgUser.first_name 
+    ? tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "") 
+    : "Имя пользователя";
 
-  // 🎴 Настройка редкостей карточек
+  // === Настройка редкостей карточек ===
   const rarities = [
     { type: "kal", chance: 70 },
     { type: "def", chance: 30 }
   ];
 
-  // 🎲 Случайная редкость
+  // Случайная редкость
   function getRandomRarity() {
     const rand = Math.random() * 100;
     let sum = 0;
@@ -35,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return rarities[0].type;
   }
 
-  // 🃏 Случайная карточка
+  // Случайная карточка
   function getRandomCard() {
     const rarity = getRandomRarity();
     const totalCards = { kal: 8, def: 10 };
@@ -52,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Открытие карточки
   function showCard() {
     const card = getRandomCard();
-
     const img = new Image();
     img.src = card.image;
     img.onload = () => {
