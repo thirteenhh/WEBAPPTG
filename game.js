@@ -1,8 +1,10 @@
+// 🎴 Настройка редкостей карточек
 const rarities = [
   { type: "kal", chance: 70 }, // говно
   { type: "def", chance: 30 }  // обычная
 ];
 
+// 🎲 Случайная редкость
 function getRandomRarity() {
   const rand = Math.random() * 100;
   let sum = 0;
@@ -10,42 +12,38 @@ function getRandomRarity() {
     sum += r.chance;
     if (rand <= sum) return r.type;
   }
+  return rarities[0].type; // fallback
 }
 
+// 🃏 Случайная карточка
 function getRandomCard() {
   const rarity = getRandomRarity();
-  const totalCards = {
-    kal: 8,
-    def: 10
-  };
+  const totalCards = { kal: 8, def: 10 };
   const maxNum = totalCards[rarity];
   const randomNum = Math.floor(Math.random() * maxNum) + 1;
-  return {
-    rarity,
-    image: `img/${rarity}${randomNum}.png`
-  };
+  return { rarity, image: `img/${rarity}${randomNum}.png` };
 }
 
 // === ОСНОВНАЯ ЛОГИКА ===
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("cardDisplay");
   const openBtn = document.getElementById("openCase");
-  const bottomMenu = document.getElementById("bottomMenu");
 
+  // === Функция открытия карточки ===
   function showCard() {
     const card = getRandomCard();
 
-    // мгновенная подгрузка (чтобы не было "по частям")
+    // Предзагрузка картинки, чтобы не грузилась частями
     const img = new Image();
     img.src = card.image;
     img.onload = () => {
-      // скрываем кнопку
+      // Скрываем кнопку "Открыть"
       openBtn.style.display = "none";
 
-      // показываем карточку с анимацией
+      // Показываем карточку с анимацией
       display.innerHTML = `<img src="${card.image}" alt="${card.rarity}" class="cardAnimation">`;
 
-      // через 1 секунду после появления карточки
+      // Через 1 секунду появляется кнопка "Открыть ещё"
       setTimeout(() => {
         const newBtn = document.createElement("button");
         newBtn.textContent = "Открыть ещё";
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         newBtn.onclick = () => {
           newBtn.remove();
-          showCard(); // повторно открыть
+          showCard(); // повторно открыть кейс
         };
       }, 1000);
     };
@@ -63,12 +61,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openBtn.addEventListener("click", showCard);
 
-  // нижнее меню
+  // === Переключение вкладок (страниц) ===
   const menuButtons = document.querySelectorAll('.menuBtn');
+  const pages = document.querySelectorAll('.page');
+
   menuButtons.forEach(button => {
     button.addEventListener('click', () => {
+      // Активная кнопка
       menuButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
+
+      // Показать соответствующую страницу
+      const pageId = button.dataset.page;
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
     });
   });
 });

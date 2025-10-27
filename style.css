@@ -1,3 +1,4 @@
+/* === Базовые стили страницы === */
 html, body {
   margin: 0;
   padding: 0;
@@ -9,17 +10,34 @@ html, body {
   background-color: #111; /* фон страницы */
 }
 
+/* Контейнер игры */
 #gameContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* центрирует большую кнопку по вертикали */
+  justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
   position: relative;
 }
 
-/* Большая квадратная кнопка в центре */
+/* === Страницы (для вкладок) === */
+.page {
+  display: none; /* по умолчанию скрыты */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.page.active {
+  display: flex; /* активная страница видима */
+}
+
+/* === Большая квадратная кнопка в центре === */
 #openCase {
   width: 150px;
   height: 150px;
@@ -32,18 +50,17 @@ html, body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
+/* === Нижнее меню === */
 #bottomMenu {
   position: absolute;
-  bottom: 20px;   /* отступ от низа экрана */
+  bottom: 20px;       /* отступ от низа экрана */
   left: 0;
   width: 100%;
   display: flex;
-  gap: 10px;      /* расстояние между кнопками */
-  padding: 0 10px; /* отступы от краёв экрана */
-  box-sizing: border-box; /* учитываем padding в ширине */
+  gap: 10px;          /* расстояние между кнопками */
+  padding: 0 10px;    /* отступы от краёв */
+  box-sizing: border-box;
 }
-
-
 
 .menuBtn {
   flex: 1;
@@ -88,10 +105,9 @@ html, body {
   100% {
     opacity: 1;
     transform: scale(1) rotate(0);
-    filter: none; /* <-- теперь blur точно выключен */
+    filter: none;
   }
 }
-
 
 /* === Анимация появления кнопки "Открыть ещё" === */
 .fadeIn {
@@ -112,4 +128,3 @@ html, body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
