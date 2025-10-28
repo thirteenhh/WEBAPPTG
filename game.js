@@ -15,8 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === Настройка редкостей карточек ===
   const rarities = [
-    { type: "kal", chance: 70 },
-    { type: "def", chance: 30 }
+    { type: "kal", chance: 50 },
+    { type: "def", chance: 30 },
+    { type: "epic", chance: 13 },
+    { type: "leg", chance: 7 },
   ];
 
   function getRandomRarity() {
@@ -31,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getRandomCard() {
     const rarity = getRandomRarity();
-    const totalCards = { kal: 8, def: 10 };
+
+    const totalCards = { kal: 8, def: 10, epic: 1, leg: 1 };
     const randomNum = Math.floor(Math.random() * totalCards[rarity]) + 1;
     return { rarity, image: `img/${rarity}${randomNum}.png` };
   }
@@ -101,42 +104,87 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // === Функция показа карточки с подсветкой ===
-  function showCard() {
-    const card = getRandomCard();
-    const img = new Image();
-    img.src = card.image;
+// === Функция показа карточки с подсветкой и линиями ===
+function showCard() {
+  const card = getRandomCard();
+  const img = new Image();
+  img.src = card.image;
 
-    img.onload = () => {
-      openBtn.style.display = "none";
+  img.onload = () => {
+    openBtn.style.display = "none";
 
-      const glowColor = card.rarity === "kal"
-        ? "rgba(128,0,128,0.5)"
-        : "rgba(0,255,0,0.5)";
+    // Цвет свечения
+    const glowColor = (() => {
+      switch(card.rarity) {
+        case "kal": return "rgba(94,0,94,1)";
+        case "def": return "rgba(0,255,0,0.5)";
+        case "epic": return "rgba(255,0,149,1)";
+        case "leg": return "rgba(255,217,0,1)";
+        default: return "rgba(128,128,128,0.5)";
+      }
+    })();
 
-      display.innerHTML = `
-        <div class="cardWrapper" style="--glow-color: ${glowColor};">
-          <img src="${card.image}" alt="${card.rarity}" class="cardAnimation">
-        </div>
-      `;
+    let cardClass = "cardAnimation"; // стандартная анимация
+    if(card.rarity === "epic") cardClass += " epicAnimation";
+    if(card.rarity === "leg") cardClass += " legAnimation";
 
-      saveCardToUser(card);
-      renderProfile();
+    // Создаем карточку с glow
+    const wrapper = document.createElement("div");
+    wrapper.className = "cardWrapper";
+    wrapper.style.setProperty("--glow-color", glowColor);
 
-      setTimeout(() => {
-        const newBtn = document.createElement("button");
-        newBtn.textContent = "Открыть ещё";
-        newBtn.id = "openAgain";
-        newBtn.classList.add("fadeIn");
-        display.appendChild(newBtn);
+    const cardImg = document.createElement("img");
+    cardImg.src = card.image;
+    cardImg.alt = card.rarity;
+    cardImg.className = cardClass;
 
-        newBtn.addEventListener("click", () => {
-          newBtn.remove();
-          showCard();
-        });
-      }, 1000);
-    };
-  }
+    wrapper.appendChild(cardImg);
+    display.innerHTML = "";
+    display.appendChild(wrapper);
+
+    // === Если эпик или легендарка — добавляем линии/серпантин ===
+    if(card.rarity === "epic" || card.rarity === "leg") {
+      const linesCount = card.rarity === "epic" ? 12 : 20;
+      for(let i=0; i<linesCount; i++) {
+        const line = document.createElement("div");
+        line.className = "sparkLine";
+        line.style.backgroundColor = glowColor;
+        const angle = Math.random() * 360;
+        const distance = card.rarity === "epic" ? 150 : 250;
+        line.style.transform = `rotate(${angle}deg) translateY(0px)`;
+        line.style.setProperty("--distance", distance + "px");
+        wrapper.appendChild(line);
+
+        // анимация вылета
+        setTimeout(() => {
+          line.style.transform = `rotate(${angle}deg) translateY(-${distance}px)`;
+          line.style.opacity = 0;
+        }, 50);
+      }
+    }
+
+    saveCardToUser(card);
+    renderProfile();
+
+    setTimeout(() => {
+      const newBtn = document.createElement("button");
+      newBtn.textContent = "Открыть ещё";
+      newBtn.id = "openAgain";
+      newBtn.classList.add("fadeIn");
+      display.appendChild(newBtn);
+
+      newBtn.addEventListener("click", () => {
+        newBtn.remove();
+        showCard();
+      });
+    }, 1000);
+  };
+}
+
+
+
+
+
 
   openBtn.addEventListener("click", showCard);
 
