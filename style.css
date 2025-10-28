@@ -187,13 +187,13 @@ body::after {
   opacity: 0;
   transform: scale(0.7) rotate(3deg);
   filter: blur(10px);
-  animation: cardReveal 0.9s ease-out forwards;
+  animation: cardReveal 0.9s ease-out forwards; /* forwards оставляет конечное состояние */
 }
 
 @keyframes cardReveal {
   0% { opacity: 0; transform: scale(0.7) rotate(3deg); filter: blur(10px); }
   60% { opacity: 1; transform: scale(1.05) rotate(-1deg); filter: blur(0); }
-  100% { opacity: 1; transform: scale(1) rotate(0); filter: none; }
+  100% { opacity: 1; transform: scale(1) rotate(0); filter: none; } /* filter сбрасывается на none */
 }
 
 /* === Свечение под карточкой === */
@@ -331,6 +331,23 @@ body::after {
   50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
 }
+
+/* Легендарная карточка — idle-анимация */
+.legAnimation.idle {
+  animation: legIdle 3s ease-in-out infinite;
+  transform-origin: center center;
+  opacity: 1;  /* чтобы оставалась видимой */
+  filter: none; /* убираем блюр */
+}
+
+@keyframes legIdle {
+  0%   { transform: scale(1) rotate(0deg); }
+  25%  { transform: scale(1.1) rotate(6deg); }
+  50%  { transform: scale(1) rotate(0deg); }
+  75%  { transform: scale(1.1) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
 
 
 
