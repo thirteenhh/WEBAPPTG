@@ -9,9 +9,58 @@ html, body {
   font-family: sans-serif;
   background-color: #111;
   color: white;
+  position: relative;
 }
 
-/* Контейнер игры */
+/* === Космический фон с двумя слоями звёзд === */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
+/* Первый слой — крупные редкие звёзды */
+body::before {
+  background-image:
+    radial-gradient(1px 1px at 40px 60px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 120px 300px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 250px 80px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 500px 200px, rgba(255,255,255,0.6), transparent);
+  animation: starsMove1 120s linear infinite;
+}
+
+/* Второй слой — мелкие звёзды и фиолетовый блеск */
+body::after {
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 200px 150px, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 600px 100px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(3px 3px at 400px 350px, rgba(140,90,255,0.15), transparent),
+    radial-gradient(3px 3px at 700px 500px, rgba(80,150,255,0.15), transparent);
+  animation: starsMove2 180s linear infinite;
+  opacity: 0.4;
+}
+
+/* Анимации движения звёзд для эффекта глубины */
+@keyframes starsMove1 {
+  0% { transform: translate(0,0) rotate(0deg) scale(1); }
+  100% { transform: translate(-300px,-300px) rotate(360deg) scale(1.2); }
+}
+
+@keyframes starsMove2 {
+  0% { transform: translate(0,0) rotate(0deg) scale(1); }
+  100% { transform: translate(300px,300px) rotate(-360deg) scale(1.3); }
+}
+
+/* === Контейнер игры === */
 #gameContainer {
   position: relative;
   width: 100%;
@@ -20,9 +69,10 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1; /* выше фона */
 }
 
-/* Все страницы поверх друг друга */
+/* === Все страницы поверх друг друга === */
 .page {
   position: absolute;
   top: 0;
@@ -34,20 +84,17 @@ html, body {
   justify-content: center;
   align-items: center;
   text-align: center;
-
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 0;
+  z-index: 1;
 }
 
-/* Активная страница */
 .page.active {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
-  z-index: 1;
 }
 
 /* === Мини-профиль сверху на главной странице === */
@@ -58,6 +105,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  z-index: 2;
 }
 
 #miniProfile img {
@@ -85,6 +133,7 @@ html, body {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   transition: transform 0.2s ease, background-color 0.3s;
+  z-index: 2;
 }
 
 #openCase:active {
@@ -102,15 +151,13 @@ html, body {
   border-radius: 30px;
   display: flex;
   overflow: hidden;
-  z-index: 10;
-
-  background-color: rgba(51, 51, 51, 0.6); /* прозрачный фон */
-  backdrop-filter: blur(10px);             /* размытие всего, что позади */
-  -webkit-backdrop-filter: blur(10px);     /* для Safari */
+  z-index: 3;
+  background-color: rgba(51, 51, 51, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
-/* Текстовые кнопки внутри */
 .menuBtn {
   flex: 1;
   display: flex;
@@ -124,16 +171,13 @@ html, body {
   background-color: transparent;
 }
 
-/* Активная вкладка — немного светлее */
 .menuBtn.active {
   background-color: rgba(85, 85, 85, 0.6);
 }
 
-/* При нажатии кнопка темнеет */
 .menuBtn:active {
   background-color: rgba(68, 68, 68, 0.6);
 }
-
 
 /* === Анимация выпадения карточки === */
 .cardAnimation {
@@ -147,21 +191,9 @@ html, body {
 }
 
 @keyframes cardReveal {
-  0% {
-    opacity: 0;
-    transform: scale(0.7) rotate(3deg);
-    filter: blur(10px);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.05) rotate(-1deg);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0);
-    filter: none;
-  }
+  0% { opacity: 0; transform: scale(0.7) rotate(3deg); filter: blur(10px); }
+  60% { opacity: 1; transform: scale(1.05) rotate(-1deg); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1) rotate(0); filter: none; }
 }
 
 /* === Свечение под карточкой === */
@@ -186,26 +218,14 @@ html, body {
 }
 
 @keyframes glowAppear {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 @keyframes glowIdle {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
 }
 
 /* === Анимация появления кнопки "Открыть ещё" === */
@@ -230,37 +250,39 @@ html, body {
 
 /* === Профиль: верхняя часть с инфой о пользователе === */
 #profileInfo {
-  flex: 1;                     /* занимает 1/3 высоты */
-  width: 100%;                 /* растягиваем на всю ширину */
+  flex: 1;
+  width: 100%;
   display: flex;
-  flex-direction: row;         /* горизонтально */
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-start; /* информация слева */
+  justify-content: flex-start;
   gap: 16px;
   padding: 16px;
   box-sizing: border-box;
   background-color: #1a1a1a;
+  z-index: 2;
 }
 
 /* === Профиль: нижняя часть с карточками === */
 #profileCards {
-  flex: 2;                      /* занимает 2/3 высоты */
+  flex: 2;
   width: 100%;
-  overflow-y: auto;              /* прокрутка именно здесь */
+  overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding: 12px;
   box-sizing: border-box;
   background-color: #111;
-  justify-items: center;          /* выравнивание карточек по центру */
+  justify-items: center;
   align-items: start;
+  z-index: 2;
 }
 
 /* === Отдельный стиль карточек === */
 .profileCard {
-  width: 100%;                   /* занимает всю ширину колонки */
-  max-width: 120px;              /* ограничение ширины */
+  width: 100%;
+  max-width: 120px;
   height: 160px;
   object-fit: cover;
   border-radius: 12px;
